@@ -68,7 +68,10 @@ jobs:
           flutter build web --release \
             --base-href "/${{ github.event.repository.name }}/" \
             --dart-define TRACKSTATE_REPOSITORY="${{ github.repository }}" \
-            --dart-define TRACKSTATE_SOURCE_REF="${{ github.event.inputs.trackstate_ref || 'main' }}"
+            --dart-define TRACKSTATE_SOURCE_REF="${{ github.event.inputs.trackstate_ref || 'main' }}" \
+            --dart-define TRACKSTATE_DATA_REF="${{ github.ref_name }}" \
+            --dart-define TRACKSTATE_GITHUB_APP_CLIENT_ID="${{ vars.TRACKSTATE_GITHUB_APP_CLIENT_ID }}" \
+            --dart-define TRACKSTATE_GITHUB_AUTH_PROXY_URL="${{ vars.TRACKSTATE_GITHUB_AUTH_PROXY_URL }}"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

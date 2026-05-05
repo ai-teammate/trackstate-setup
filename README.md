@@ -9,9 +9,12 @@ Fork this repository to your own GitHub account or organization, enable GitHub P
 1. Fork `IstiN/trackstate-setup`.
 2. Open **Settings > Pages** in your fork.
 3. Set **Build and deployment > Source** to **GitHub Actions**.
-4. Open **Actions > Install / Update TrackState**.
-5. Click **Run workflow**.
-6. Keep `trackstate_ref` as `main` for latest, or enter a tag/commit SHA for a fixed version.
+4. Optional: open **Settings > Secrets and variables > Actions > Variables** and configure GitHub App login:
+   - `TRACKSTATE_GITHUB_APP_CLIENT_ID`: the GitHub App **Client ID** from the app's General settings, not the numeric App ID.
+   - `TRACKSTATE_GITHUB_AUTH_PROXY_URL`: your auth broker URL. A static Flutter app must not contain a client secret or private key, so this broker exchanges the GitHub callback code for a user access token and redirects back to your Pages URL with `#trackstate_token=<token>`.
+5. Open **Actions > Install / Update TrackState**.
+6. Click **Run workflow**.
+7. Keep `trackstate_ref` as `main` for latest, or enter a tag/commit SHA for a fixed version.
 
 Your app will be published at:
 
@@ -28,6 +31,31 @@ Run the same **Install / Update TrackState** workflow again:
 - a commit SHA pins the app to an exact build.
 
 The workflow does not commit generated web assets to this repository. It publishes the compiled app as a Pages artifact, keeping the fork clean and focused on tracker data/configuration.
+
+The deployed Pages artifact contains only the Flutter application. Tracker files are read at runtime from this repository through the GitHub API (`git/trees` for file discovery and `contents` for markdown/config reads), and writes are committed back with the GitHub Contents API.
+
+## Login options
+
+TrackState offers two login paths:
+
+1. **Fine-grained token**: click **Connect GitHub**, paste a token with repository **Contents: Read and write**, and optionally enable **Remember on this browser**. Remembered tokens are stored in this browser/device storage so you do not need to paste them after every refresh. Do not enable this on shared machines.
+2. **GitHub App login**: configure `TRACKSTATE_GITHUB_APP_CLIENT_ID` and `TRACKSTATE_GITHUB_AUTH_PROXY_URL`, then rebuild with **Install / Update TrackState**. The app redirects to the broker/GitHub flow and accepts a callback token from the URL fragment.
+
+### GitHub App redirect setup
+
+In your GitHub App settings, add your deployed Pages URL as a callback target:
+
+```text
+https://<owner>.github.io/<repo>/
+```
+
+Because GitHub's web authorization flow requires a secret exchange, the callback must be handled by your auth broker/proxy. The proxy should:
+
+1. Receive the GitHub callback code.
+2. Exchange it server-side using the GitHub App client secret/private key.
+3. Redirect to `https://<owner>.github.io/<repo>/#trackstate_token=<user-access-token>`.
+
+The Flutter app stores that token locally for the repository and uses it for read/write GitHub API calls.
 
 ## Tracker data
 
