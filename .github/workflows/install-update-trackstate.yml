@@ -75,6 +75,17 @@ jobs:
           mkdir -p trackstate-source/build/web/trackstate-data
           cp -R setup/DEMO trackstate-source/build/web/trackstate-data/DEMO
           cp setup/project-template.json trackstate-source/build/web/trackstate-data/project-template.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("setup/DEMO")
+          issues = sorted(str(path.relative_to("setup")) for path in root.rglob("main.md"))
+          Path("trackstate-source/build/web/trackstate-data/index.json").write_text(
+              json.dumps({"issues": issues}, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
