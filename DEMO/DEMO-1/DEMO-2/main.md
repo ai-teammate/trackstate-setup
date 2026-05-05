@@ -2,7 +2,7 @@
 key: DEMO-2
 project: DEMO
 issueType: Story
-status: In Progress
+status: In Review
 priority: High
 summary: Explore the issue board
 assignee: demo-user
