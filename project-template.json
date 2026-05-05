@@ -1,0 +1,10 @@
+{
+  "trackstate": {
+    "sourceRepository": "IstiN/trackstate",
+    "defaultRef": "main",
+    "dataPath": "DEMO"
+  },
+  "pages": {
+    "source": "github-actions"
+  }
+}

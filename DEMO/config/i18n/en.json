@@ -1,0 +1,13 @@
+{
+  "issueTypes": {
+    "epic": "Epic",
+    "story": "Story",
+    "subtask": "Sub-task"
+  },
+  "statuses": {
+    "todo": "To Do",
+    "in-progress": "In Progress",
+    "in-review": "In Review",
+    "done": "Done"
+  }
+}

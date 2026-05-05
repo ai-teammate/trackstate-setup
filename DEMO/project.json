@@ -1,0 +1,8 @@
+{
+  "key": "DEMO",
+  "name": "Demo TrackState Project",
+  "defaultLocale": "en",
+  "issueKeyPattern": "DEMO-{number}",
+  "dataModel": "nested-tree",
+  "configPath": "config"
+}

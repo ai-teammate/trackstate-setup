@@ -1,0 +1,5 @@
+.DS_Store
+.trackstate/build/
+.trackstate/cache/
+.trackstate/source/
+node_modules/

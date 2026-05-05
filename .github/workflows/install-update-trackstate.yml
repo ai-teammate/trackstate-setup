@@ -1,0 +1,86 @@
+name: Install / Update TrackState
+
+on:
+  workflow_dispatch:
+    inputs:
+      trackstate_ref:
+        description: "TrackState source ref to install: branch, tag, or commit SHA"
+        required: true
+        default: main
+  push:
+    branches: [main]
+    paths:
+      - DEMO/**
+      - config/**
+      - .github/workflows/install-update-trackstate.yml
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  install-update:
+    name: Build TrackState for this repository
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout setup repository
+        uses: actions/checkout@v4
+        with:
+          path: setup
+          lfs: true
+
+      - name: Checkout TrackState source
+        uses: actions/checkout@v4
+        with:
+          repository: IstiN/trackstate
+          ref: ${{ github.event.inputs.trackstate_ref || 'main' }}
+          path: trackstate-source
+          submodules: true
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.3'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        working-directory: trackstate-source
+        run: flutter pub get
+
+      - name: Validate TrackState source
+        working-directory: trackstate-source
+        run: |
+          flutter analyze
+          flutter test
+
+      - name: Build Flutter web app for this fork
+        working-directory: trackstate-source
+        run: |
+          flutter build web --release \
+            --base-href "/${{ github.event.repository.name }}/" \
+            --dart-define TRACKSTATE_REPOSITORY="${{ github.repository }}" \
+            --dart-define TRACKSTATE_SOURCE_REF="${{ github.event.inputs.trackstate_ref || 'main' }}"
+
+      - name: Copy setup metadata into web build
+        run: |
+          mkdir -p trackstate-source/build/web/trackstate-data
+          cp -R setup/DEMO trackstate-source/build/web/trackstate-data/DEMO
+          cp setup/project-template.json trackstate-source/build/web/trackstate-data/project-template.json
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: trackstate-source/build/web
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

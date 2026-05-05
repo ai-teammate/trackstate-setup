@@ -1,0 +1,5 @@
+[
+  {"id": "tracker-core", "name": "Tracker Core"},
+  {"id": "flutter-ui", "name": "Flutter UI"},
+  {"id": "automation", "name": "Automation"}
+]
