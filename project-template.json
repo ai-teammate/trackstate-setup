@@ -2,9 +2,45 @@
   "trackstate": {
     "sourceRepository": "IstiN/trackstate",
     "defaultRef": "main",
-    "dataPath": "DEMO"
+    "dataPath": "DEMO",
+    "projectFile": "DEMO/project.json",
+    "configPath": "DEMO/config",
+    "editableConfigPaths": [
+      "DEMO/project.json",
+      "DEMO/config/fields.json",
+      "DEMO/config/issue-types.json",
+      "DEMO/config/statuses.json",
+      "DEMO/config/workflows.json",
+      "DEMO/config/priorities.json",
+      "DEMO/config/components.json",
+      "DEMO/config/versions.json",
+      "DEMO/config/i18n/en.json"
+    ]
+  },
+  "auth": {
+    "default": "pat",
+    "pat": {
+      "type": "fine-grained-personal-access-token",
+      "repositoryPermissions": {
+        "metadata": "read",
+        "contents": "write"
+      }
+    },
+    "githubApp": {
+      "type": "user-scoped-token-via-broker",
+      "optional": true,
+      "requiredVariables": [
+        "TRACKSTATE_GITHUB_APP_CLIENT_ID",
+        "TRACKSTATE_GITHUB_AUTH_PROXY_URL"
+      ],
+      "repositoryPermissions": {
+        "metadata": "read",
+        "contents": "write"
+      }
+    }
   },
   "pages": {
-    "source": "github-actions"
+    "source": "github-actions",
+    "commitsBuildArtifacts": false
   }
 }

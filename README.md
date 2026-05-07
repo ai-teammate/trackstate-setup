@@ -34,11 +34,31 @@ The workflow does not commit generated web assets to this repository. It publish
 
 The deployed Pages artifact contains only the Flutter application. Tracker files are read at runtime from this repository through the GitHub API (`git/trees` for file discovery and `contents` for markdown/config reads), and writes are committed back with the GitHub Contents API.
 
+## Repository permissions
+
+Use a **Fine-grained personal access token (default)** when you want the
+simplest setup path. Grant only the target setup repository and these
+repository permissions:
+
+- Metadata: Read-only
+- Contents: Read and write
+
+The optional GitHub App flow uses the same repository permissions and also
+requires `TRACKSTATE_GITHUB_APP_CLIENT_ID` and
+`TRACKSTATE_GITHUB_AUTH_PROXY_URL` before rebuilding the Pages artifact.
+
+## CLI quick start
+
+The generated app reads from `IstiN/trackstate` by default and uses
+`DEMO/project.json` plus `DEMO/config/*.json` for editable tracker
+configuration. Keep attachments under each issue's `attachments/` directory
+and store large binaries through Git LFS.
+
 ## Login options
 
 TrackState offers two login paths:
 
-1. **Fine-grained token**: click **Connect GitHub**, paste a token with repository **Contents: Read and write**, and optionally enable **Remember on this browser**. Remembered tokens are stored in this browser/device storage so you do not need to paste them after every refresh. Do not enable this on shared machines.
+1. **Fine-grained token**: click **Connect GitHub**, paste a token with repository **Metadata: Read-only** and **Contents: Read and write**, and optionally enable **Remember on this browser**. Remembered tokens are stored in this browser/device storage so you do not need to paste them after every refresh. Do not enable this on shared machines.
 2. **GitHub App login**: configure `TRACKSTATE_GITHUB_APP_CLIENT_ID` and `TRACKSTATE_GITHUB_AUTH_PROXY_URL`, then rebuild with **Install / Update TrackState**. The app redirects to the broker/GitHub flow and accepts a callback token from the URL fragment.
 
 ### GitHub App redirect setup
