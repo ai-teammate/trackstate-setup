@@ -1,9 +1,9 @@
 ---
 key: DEMO-4
 project: DEMO
-issueType: Story
-status: To Do
-priority: Medium
+issueType: story
+status: done
+priority: medium
 summary: Search with JQL
 assignee: demo-user
 reporter: demo-admin
@@ -12,7 +12,11 @@ labels:
 components:
   - tracker-core
 fixVersions:
-  - MVP
+  - mvp
+watchers:
+  - demo-user
+resolution: done
+archived: false
 parent: null
 epic: DEMO-1
 created: 2026-05-05T00:20:00Z

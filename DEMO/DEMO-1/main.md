@@ -1,9 +1,9 @@
 ---
 key: DEMO-1
 project: DEMO
-issueType: Epic
-status: In Progress
-priority: Highest
+issueType: epic
+status: in-progress
+priority: highest
 summary: Welcome to TrackState.AI
 assignee: demo-admin
 reporter: demo-admin
@@ -13,7 +13,10 @@ labels:
 components:
   - tracker-core
 fixVersions:
-  - MVP
+  - mvp
+watchers:
+  - demo-admin
+archived: false
 parent: null
 epic: null
 created: 2026-05-05T00:00:00Z

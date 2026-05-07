@@ -63,16 +63,26 @@ The demo project is stored in `DEMO/` using Git-native markdown and JSON files. 
 
 ```text
 DEMO/
+  .trackstate/
+    index/
+      issues.json
+      deleted.json
   project.json
   config/
+    resolutions.json
   DEMO-1/
     main.md
     DEMO-2/
       main.md
       acceptance_criteria.md
       comments/
+      links.json
+      attachments/
+        board-preview.svg
       DEMO-3/
         main.md
 ```
+
+Issue frontmatter stores canonical machine ids such as `issueType: story`, `status: in-review`, `priority: high`, and `fixVersions: [mvp]`. Localized labels come from `config/` and `config/i18n/*.json`, while `.trackstate/index/*.json` provides the generated key/path and tombstone lookup artifacts needed for stable issue resolution after moves.
 
 Large attachments should be stored through Git LFS. `.gitattributes` already tracks common binary formats.

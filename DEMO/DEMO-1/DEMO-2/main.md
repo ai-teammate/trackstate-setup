@@ -1,9 +1,9 @@
 ---
 key: DEMO-2
 project: DEMO
-issueType: Story
-status: In Review
-priority: High
+issueType: story
+status: in-review
+priority: high
 summary: Explore the issue board
 assignee: demo-user
 reporter: demo-admin
@@ -12,7 +12,16 @@ labels:
 components:
   - flutter-ui
 fixVersions:
-  - MVP
+  - mvp
+watchers:
+  - demo-admin
+  - demo-user
+archived: false
+customFields:
+  storyPoints: 5
+  releaseTrain:
+    - web
+    - mobile
 parent: null
 epic: DEMO-1
 created: 2026-05-05T00:05:00Z
